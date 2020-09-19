@@ -1,0 +1,19 @@
+image: docker:stable
+
+stages:
+  - build
+  
+services:
+  - docker
+  
+build:
+  stage: build
+  only:
+    - tags
+  script:
+    # Собираем образ приложения
+    - docker build --network host -t $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG . 
+    # Подключаем registry
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY_IMAGE
+    # Пушим получившейся образ в registry
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
