@@ -50,5 +50,8 @@ RUN set -eux \
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Install xdebug
+RUN pecl install xdebug-2.9.4 && docker-php-ext-enable xdebug
+
 # cleanup
 RUN rm -rf /var/cache/apk/* /tmp/* /var/tmp/* /usr/share/doc/* /usr/share/man/*
