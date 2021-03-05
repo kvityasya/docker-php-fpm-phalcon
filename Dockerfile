@@ -50,5 +50,8 @@ RUN set -eux \
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Install supervisor
+RUN apk update &&  apk add --no-cache supervisor
+
 # cleanup
 RUN rm -rf /var/cache/apk/* /tmp/* /var/tmp/* /usr/share/doc/* /usr/share/man/*
