@@ -47,6 +47,18 @@ RUN set -eux \
   && pecl install phalcon-4.0.5 \
   && docker-php-ext-enable phalcon
 
+# install the xhprof extension to profile requests
+RUN curl "https://github.com/tideways/php-xhprof-extension/archive/v5.0.2.tar.gz" -fsL -o ./php-xhprof-extension.tar.gz && \
+    tar xf ./php-xhprof-extension.tar.gz && \
+    cd php-xhprof-extension-5.0.2 && \
+    apk add --update --no-cache build-base autoconf && \
+    phpize && \
+    ./configure && \
+    make && \
+    make install
+RUN rm -rf ./php-xhprof-extension.tar.gz ./php-xhprof-extension-5.0.2
+RUN docker-php-ext-enable tideways_xhprof
+
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
